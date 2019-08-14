@@ -1,15 +1,2 @@
 # Rottweiler
-
-## Card
-
-### model for preview
-
-```js
-{
-  id: '오브젝트 ID',
-  title: '제목',
-  excerpt: '요약',
-  content: '내용',
-  done: true,
-}
-```
+🏴 INU 프로젝트 관리 솔루션, 로트바일러

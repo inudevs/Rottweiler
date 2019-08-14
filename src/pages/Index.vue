@@ -60,7 +60,7 @@ export default {
       <div class="index__canvas">
         <board
           title="디미청원"
-          :length="3"
+          :length="testCards.length"
         >
           <template
             v-for="(card, idx) in testCards"
