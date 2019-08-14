@@ -17,6 +17,8 @@ export default {
         type: 'info',
         title: '',
         content: '',
+        repoOwner: 'inudevs',
+        repoName: '',
       },
     };
   },
@@ -43,8 +45,19 @@ export default {
         <select>
           <option>정보</option>
           <option>체크리스트</option>
+          <option>깃허브</option>
         </select>
       </div>
+      <template>
+        <div
+          class="board__repo board__field"
+        >
+          <span>저장소</span>
+          <input v-model="forms.repoOwner" />
+          &sol;
+          <input v-model="forms.repoName" />
+        </div>
+      </template>
       <input
         class="board__input board__field"
         placeholder="제목"

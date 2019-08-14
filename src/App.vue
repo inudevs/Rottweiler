@@ -9,6 +9,10 @@
   font-family: 'Nanum Square';
 }
 
+a {
+  text-decoration: none;
+}
+
 html,
 body,
 #app {

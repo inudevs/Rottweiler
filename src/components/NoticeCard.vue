@@ -29,7 +29,7 @@ export default {
       </span>
     </div>
     <div class="card__content">
-      {{ card.content }}
+      {{ card.excerpt }}
     </div>
   </div>
 </template>
@@ -53,6 +53,7 @@ export default {
   &__title {
     font-size: 1.1rem;
     color: #0ca678;
+    white-space: normal;
   }
 
   &__title i {
@@ -61,6 +62,7 @@ export default {
 
   &__content {
     font-size: 0.8rem;
+    white-space: normal;
     line-height: 1.5;
   }
 }

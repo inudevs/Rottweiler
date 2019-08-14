@@ -16,6 +16,10 @@ export default {
     async onClick() {
       console.log(true);
     },
+    async onCheck() {
+      this.card.done = !(this.card.done);
+      console.log(this.card.done);
+    },
   },
 };
 </script>
@@ -29,7 +33,10 @@ export default {
       <span
         class="card__title"
       >
-        <i :class="icon" />
+        <i
+          :class="icon"
+          @click.stop="onCheck"
+        />
         {{ card.title }}
       </span>
     </div>
@@ -51,6 +58,7 @@ export default {
   border-radius: 5px;
   padding: 0.5rem;
   padding-bottom: 0.4rem;
+  cursor: pointer;
 
   &:not(:last-child) {
     margin-bottom: 0.3rem;
@@ -59,14 +67,20 @@ export default {
   &__title {
     font-size: 1.1rem;
     color: #1971c2;
+    white-space: normal;
   }
 
   &__title i {
     margin-right: 0.1rem;
+
+    &:hover {
+      background-color: #e7f5ff;
+    }
   }
 
   &__content {
     font-size: 0.8rem;
+    white-space: normal;
     line-height: 1.5;
   }
 }

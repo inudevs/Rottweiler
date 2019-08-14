@@ -2,6 +2,7 @@
 import Board from '../components/Board.vue';
 import NoticeCard from '../components/NoticeCard.vue';
 import CheckCard from '../components/CheckCard.vue';
+import GithubCard from '../components/GithubCard.vue';
 
 export default {
   name: 'Index',
@@ -9,29 +10,37 @@ export default {
     Board,
     NoticeCard,
     CheckCard,
+    GithubCard,
   },
   data() {
     return {
       testCards: [
         {
           type: 'info',
-          title: '개발',
-          excerpt: '일일일',
-          content: '어쩌고',
+          title: '8월까지 마무리',
+          excerpt: '8월 말까지는 꼭 끝내야 합니다.',
         },
         {
           type: 'check',
-          title: '개발',
-          excerpt: '일일일',
-          content: '어쩌고',
+          title: '프론트엔드 개발',
+          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
           done: false,
         },
         {
           type: 'check',
-          title: '개발',
-          excerpt: '일일일',
-          content: '어쩌고',
+          title: '백엔드 개발',
+          excerpt: 'Sanic으로 만드는 비동기 API 서버',
           done: true,
+        },
+        {
+          type: 'github',
+          repo: 'inudevs/dimigo-petitions-back',
+          issue: 14,
+        },
+        {
+          type: 'github',
+          repo: 'inudevs/dimigo-petitions-back',
+          issue: 1,
         },
       ],
     };
@@ -50,7 +59,7 @@ export default {
     <div class="index__content">
       <div class="index__canvas">
         <board
-          title="디미09"
+          title="디미청원"
           :length="3"
         >
           <template
@@ -66,10 +75,15 @@ export default {
               :card="card"
               :key="idx"
             />
+            <github-card
+              v-else-if="card.type === 'github'"
+              :card="card"
+              :key="idx"
+            />
           </template>
         </board>
         <board title="래브라도" />
-        <board title="디미청원" />
+        <board title="디미09" />
         <board title="인원체크" />
       </div>
     </div>
