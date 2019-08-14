@@ -179,6 +179,13 @@ input:focus{
       display: flex;
       font-size: 0.8rem;
       line-height: 1.47;
+      border: .5px solid #a4a4a4;
+    }
+
+    button:first-child {
+      margin-right: 0.3rem;
+      background-color: #495057;
+      color: white;
     }
   }
 

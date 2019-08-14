@@ -1,12 +1,40 @@
 <script>
 import Board from '../components/Board.vue';
-import Card from '../components/Card.vue';
+import NoticeCard from '../components/NoticeCard.vue';
+import CheckCard from '../components/CheckCard.vue';
 
 export default {
   name: 'Index',
   components: {
     Board,
-    Card,
+    NoticeCard,
+    CheckCard,
+  },
+  data() {
+    return {
+      testCards: [
+        {
+          type: 'info',
+          title: '개발',
+          excerpt: '일일일',
+          content: '어쩌고',
+        },
+        {
+          type: 'check',
+          title: '개발',
+          excerpt: '일일일',
+          content: '어쩌고',
+          done: false,
+        },
+        {
+          type: 'check',
+          title: '개발',
+          excerpt: '일일일',
+          content: '어쩌고',
+          done: true,
+        },
+      ],
+    };
   },
 };
 </script>
@@ -25,9 +53,20 @@ export default {
           title="디미09"
           :length="3"
         >
-          <card title="개발" content="일일일" />
-          <card type="todo" title="백엔드 개발" content="끝이 없어" />
-          <card type="done" title="모바일 개발" content="겨우 다 해" />
+          <template
+            v-for="(card, idx) in testCards"
+          >
+            <notice-card
+              v-if="card.type === 'info'"
+              :card="card"
+              :key="idx"
+            />
+            <check-card
+              v-else-if="card.type === 'check'"
+              :card="card"
+              :key="idx"
+            />
+          </template>
         </board>
         <board title="래브라도" />
         <board title="디미청원" />

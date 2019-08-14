@@ -1,38 +1,35 @@
 <script>
 export default {
-  name: 'Card',
+  name: 'NoticeCard',
   props: {
-    title: String,
-    content: String,
-    type: {
-      type: String,
-      default: 'info',
+    card: {
+      type: Object,
+      default: () => {},
     },
   },
-  computed: {
-    iconClass() {
-      return {
-        info: 'fas fa-exclamation-circle',
-        todo: 'far fa-square',
-        done: 'fas fa-check-square',
-      }[this.type];
+  methods: {
+    async onClick() {
+      console.log(true);
     },
   },
 };
 </script>
 
 <template>
-  <div class="card">
+  <div
+    class="card"
+    @click="onClick"
+  >
     <div class="card__head">
       <span
-        :class="`card__title ${type}`"
+        class="card__title"
       >
-        <i :class="{ [iconClass]: true }" />
-        {{ title }}
+        <i class="fas fa-exclamation-circle" />
+        {{ card.title }}
       </span>
     </div>
     <div class="card__content">
-      {{ content }}
+      {{ card.content }}
     </div>
   </div>
 </template>
@@ -40,11 +37,6 @@ export default {
 <style lang="scss" scoped>
 .fa-exclamation-circle {
   color: #0ca678;
-}
-
-.fa-square,
-.fa-check-square {
-  color: #1971c2;
 }
 
 .card {
@@ -60,15 +52,7 @@ export default {
 
   &__title {
     font-size: 1.1rem;
-
-    &.info {
-      color: #0ca678;
-    }
-
-    &.todo,
-    &.done {
-      color: #1971c2;
-    }
+    color: #0ca678;
   }
 
   &__title i {

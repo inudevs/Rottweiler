@@ -1,29 +1,15 @@
-# rottweiler
+# Rottweiler
 
-## Project setup
-```
-npm install
-```
+## Card
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### model for preview
 
-### Compiles and minifies for production
+```js
+{
+  id: '오브젝트 ID',
+  title: '제목',
+  excerpt: '요약',
+  content: '내용',
+  done: true,
+}
 ```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
