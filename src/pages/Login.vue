@@ -14,7 +14,9 @@ export default {
       if (!this.form.id || !this.form.password) return;
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
-        console.log(data);
+        this.$store.commit('login', data.token);
+        this.$store.commit('saveID', data.id);
+        this.$router.push('/');
       } catch (error) {
         console.error(error);
       }
