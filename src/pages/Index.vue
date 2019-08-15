@@ -43,7 +43,7 @@ export default {
           title: '백엔드 개발',
           excerpt: 'Sanic으로 만드는 비동기 API 서버',
           done: true,
-        },{
+        }, {
           type: 'check',
           title: '프론트엔드 개발',
           excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
@@ -54,7 +54,7 @@ export default {
           title: '백엔드 개발',
           excerpt: 'Sanic으로 만드는 비동기 API 서버',
           done: true,
-        },{
+        }, {
           type: 'check',
           title: '프론트엔드 개발',
           excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
