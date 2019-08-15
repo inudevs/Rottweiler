@@ -22,35 +22,6 @@ export default {
         },
         {
           type: 'check',
-          title: '프론트엔드 개발',
-          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
-          done: false,
-        },
-        {
-          type: 'check',
-          title: '백엔드 개발',
-          excerpt: 'Sanic으로 만드는 비동기 API 서버',
-          done: true,
-        },
-        {
-          type: 'check',
-          title: '프론트엔드 개발',
-          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
-          done: false,
-        },
-        {
-          type: 'check',
-          title: '백엔드 개발',
-          excerpt: 'Sanic으로 만드는 비동기 API 서버',
-          done: true,
-        }, {
-          type: 'check',
-          title: '프론트엔드 개발',
-          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
-          done: false,
-        },
-        {
-          type: 'check',
           title: '백엔드 개발',
           excerpt: 'Sanic으로 만드는 비동기 API 서버',
           done: true,
@@ -118,7 +89,6 @@ export default {
         </board>
         <board title="래브라도" />
         <board title="디미09" />
-        <board title="인원체크" />
         <board title="인원체크" />
         <board title="인원체크" />
         <board title="인원체크" />

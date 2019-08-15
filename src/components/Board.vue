@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       forms: {
-        new: false,
+        open: true,
         type: 'info',
         title: '',
         content: '',
@@ -33,13 +33,13 @@ export default {
       <span class="board__new">
         <i
           class="fas fa-plus"
-          @click="forms.new = !(forms.new)"
+          @click="forms.open = !(forms.open)"
         />
       </span>
     </span>
     <div
       class="board__form"
-      v-if="forms.new"
+      v-if="forms.open"
     >
       <div class="board__select board__field">
         <select>
@@ -52,10 +52,18 @@ export default {
         <div
           class="board__repo board__field"
         >
-          <span>저장소</span>
-          <input v-model="forms.repoOwner" />
-          &sol;
-          <input v-model="forms.repoName" />
+          <span class="board__repo-title">저장소</span>
+          <div class="board__repo-form">
+            <input
+              class="board__input-small"
+              v-model="forms.repoOwner"
+            />
+            &sol;
+            <input
+              class="board__input-small"
+              v-model="forms.repoName"
+            />
+          </div>
         </div>
       </template>
       <input
@@ -71,7 +79,7 @@ export default {
           카드 추가
         </button>
         <button
-          @click="forms.new = false"
+          @click="forms.open = false"
         >
           취소
         </button>
@@ -170,6 +178,16 @@ input:focus{
 
   &__repo {
     width: 95%;
+    display: flex;
+    align-items: center;
+
+    &-title {
+      font-size: .9rem;
+    }
+
+    &-form {
+      text-align: right;
+    }
   }
 
   &__input,
@@ -178,11 +196,15 @@ input:focus{
     box-sizing: border-box;
     font-size: 0.9rem;
     line-height: 1.47;
-    padding-top: .3rem;
-    padding-bottom: .3rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    padding: .3rem .5rem;
     border: .5px solid #a4a4a4;
+
+    &-small {
+      width: 35%;
+      font-size: 0.9rem;
+      padding: .3rem .5rem;
+      border: .5px solid #a4a4a4;
+    }
   }
 
   &__buttons {
