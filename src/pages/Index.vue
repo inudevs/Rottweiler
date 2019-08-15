@@ -33,6 +33,40 @@ export default {
           done: true,
         },
         {
+          type: 'check',
+          title: '프론트엔드 개발',
+          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
+          done: false,
+        },
+        {
+          type: 'check',
+          title: '백엔드 개발',
+          excerpt: 'Sanic으로 만드는 비동기 API 서버',
+          done: true,
+        },{
+          type: 'check',
+          title: '프론트엔드 개발',
+          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
+          done: false,
+        },
+        {
+          type: 'check',
+          title: '백엔드 개발',
+          excerpt: 'Sanic으로 만드는 비동기 API 서버',
+          done: true,
+        },{
+          type: 'check',
+          title: '프론트엔드 개발',
+          excerpt: 'Vue.js와 Vuex로 예쁘게 완성하기',
+          done: false,
+        },
+        {
+          type: 'check',
+          title: '백엔드 개발',
+          excerpt: 'Sanic으로 만드는 비동기 API 서버',
+          done: true,
+        },
+        {
           type: 'github',
           repo: 'inudevs/dimigo-petitions-back',
           issue: 14,
@@ -85,19 +119,32 @@ export default {
         <board title="래브라도" />
         <board title="디미09" />
         <board title="인원체크" />
+        <board title="인원체크" />
+        <board title="인원체크" />
+        <board title="인원체크" />
       </div>
     </div>
+    <img
+      class="index__illust"
+      :src="require('../assets/dog-sat.png')"
+    />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+html {
+  background-color: #FFFCED;
+  overflow-x: hidden;
+}
+
 .index {
   height: 100%;
-  padding-left: 1rem;
+  width: 100%;
+  padding-left: 2rem;
   padding-right: 1rem;
 
   &__head {
-    margin-top: 2rem;
+    padding-top: 2rem;
     margin-left: 1rem;
     margin-bottom: 0.5rem;
   }
@@ -118,20 +165,33 @@ export default {
   &__content {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: fit-content;
   }
 
   &__canvas {
+    height: fit-content;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    overflow-x: auto;
     overflow-y: hidden;
     padding: 0.8rem 0.5rem;
+    padding-right: 5rem;
     user-select: none;
     white-space: nowrap;
+
+    &::-webkit-scrollbar {
+      width: 0 !important;
+    }
+  }
+
+  &__illust {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 50%;
+    z-index: -1;
   }
 }
 </style>
