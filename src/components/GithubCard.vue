@@ -50,7 +50,7 @@ export default {
     openLink(url) {
       const win = window.open(url, '_blank');
       win.focus();
-    }
+    },
   },
 };
 </script>
@@ -166,6 +166,7 @@ export default {
     width: 3vh;
     border-radius: 50%;
     margin-right: 0.3rem;
+    border: .5px solid #adb5bd;
   }
 
   &__name {

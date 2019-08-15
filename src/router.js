@@ -13,5 +13,10 @@ export default new Router({
       name: 'index',
       component: Index,
     },
+    {
+      path: '/auth/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "login" */ './pages/Login.vue')
+    }
   ],
 });
