@@ -18,6 +18,9 @@ export default {
       <span class="login__title login__title-top">시바</span>
       <span class="login__title login__title-center">염탐하지</span>
       <span class="login__title login__title-bottom">마라</span>
+      <span class="login__title login__title-desc">
+        INU 프로젝트 관리 솔루션, 로트바일러
+      </span>
     </h1>
     <div class="login__form">
       <input
@@ -59,6 +62,7 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
+  position: fixed;
 
   &__title {
     font-family: 'yg-jalnan';
@@ -83,14 +87,23 @@ html {
       -webkit-text-stroke-color: #000;
       color: transparent;
     }
+
+    &-desc {
+      display: block;
+      margin-left: 1.5rem;
+      font-size: 1.5rem;
+      color: #FAAC30;
+      -webkit-text-stroke-width: 0;
+      line-height: unset;
+    }
   }
 
   &__illust {
-    width: 60%;
+    width: 50%;
     z-index: -1;
     position: absolute;
-    right: -150px;
-    bottom: -50px;
+    right: 0;
+    bottom: 0;
   }
 
   &__form {
