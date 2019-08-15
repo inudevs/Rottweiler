@@ -39,9 +39,20 @@ export default {
   async created() {
     const { repo, issue } = this.card;
     const url = `https://api.github.com/repos/${repo}/issues/${issue}`;
-    const { data } = await this.$api.get(url);
-    this.issue = data;
-    this.isLoaded = true;
+    try {
+      const { data } = await this.$api.get(url, {
+        transformRequest: [(req, headers) => {
+          // eslint-disable-next-line no-param-reassign
+          delete headers.common.Authorization;
+          return req;
+        }],
+      });
+      this.issue = data;
+      this.isLoaded = true;
+    } catch (error) {
+      // TODO: fallback for 403 (API rate limit exceeded)
+      console.error(error);
+    }
   },
   methods: {
     onClick() {

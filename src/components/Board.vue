@@ -168,6 +168,10 @@ input:focus{
     }
   }
 
+  &__repo {
+    width: 95%;
+  }
+
   &__input,
   &__textarea {
     width: 95%;
