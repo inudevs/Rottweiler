@@ -150,16 +150,17 @@ html {
   }
 
   &__title {
+    font-family: 'yg-jalnan';
     color: #343a40;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     margin: 0;
   }
 
   &__comment {
     color: #868e96;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: normal;
-    margin-left: 0.3rem;
+    margin-left: 0;
   }
 
   &__content {
