@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       forms: {
-        open: true,
+        open: false,
         type: 'info',
         title: '',
         content: '',
@@ -42,15 +42,18 @@ export default {
       v-if="forms.open"
     >
       <div class="board__select board__field">
-        <select>
-          <option>정보</option>
-          <option>체크리스트</option>
-          <option>깃허브</option>
+        <select
+          v-model="forms.type"
+        >
+          <option value="info">정보</option>
+          <option value="check">체크리스트</option>
+          <option value="github">깃허브</option>
         </select>
       </div>
       <template>
         <div
           class="board__repo board__field"
+          v-if="forms.type === 'github'"
         >
           <span class="board__repo-title">저장소</span>
           <div class="board__repo-form">
@@ -173,6 +176,7 @@ input:focus{
       color: #a4a4a4;
       font-size: 0.9rem;
       line-height: 1.47;
+      outline: none;
     }
   }
 
