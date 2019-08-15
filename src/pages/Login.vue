@@ -40,12 +40,14 @@ export default {
         class="login__input"
         placeholder="아… 이디"
         v-model="form.id"
+        autocomplete="new-username"
       />
       <input
         class="login__input"
-        placeholder="패스워드"
+        placeholder="패스ㅋ워드"
         type="password"
         v-model="form.password"
+        autocomplete="new-password"
       />
       <button class="login__button">
         틀리면 물린다
