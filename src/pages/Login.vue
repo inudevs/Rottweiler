@@ -9,6 +9,17 @@ export default {
       },
     };
   },
+  methods: {
+    async onClick() {
+      if (!this.form.id || !this.form.password) return;
+      try {
+        const { data } = await this.$api.post('/auth/login', this.form);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>
 
@@ -46,10 +57,6 @@ export default {
 </template>
 
 <style lang="scss">
-html {
-  background-color: #FFFCED;
-}
-
 @font-face {
   font-family: 'yg-jalnan';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
@@ -63,6 +70,7 @@ html {
   width: 100%;
   height: 100%;
   position: fixed;
+  background-color: #FFFCED;
 
   &__title {
     font-family: 'yg-jalnan';
