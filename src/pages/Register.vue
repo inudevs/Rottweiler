@@ -3,6 +3,10 @@ export default {
   name: 'Register',
   data() {
     return {
+      next: {
+        password: false,
+        submit: false,
+      },
       form: {
         id: '',
         password: '',
@@ -22,21 +26,41 @@ export default {
         INU의 모든 프로젝트를,<br />한눈에.
       </span>
     </h1>
+    <div class="register__form">
+      <span class="register__help">
+        사용자 이름은 지금 사용하고 계시는 <strong>깃허브 계정</strong>과 같은 걸 사용해주세요!
+      </span>
+      <input
+        class="register__input"
+        placeholder="멋진 사용자 이름"
+        v-model="form.id"
+        @keypress="next.password = true"
+        autocomplete="new-username"
+        autofocus
+      />
+      <div v-if="next.password">
+        <span class="register__help">
+          여러분의 <strong>소중한 패스워드</strong>는 scrypt로 해싱한 뒤에 저장할 거예요!
+        </span>
+        <input
+          class="register__input"
+          placeholder="비밀스러운 패스워드"
+          v-model="form.password"
+          @keypress="next.submit = true"
+          autocomplete="new-password"
+        />
+      </div>
+      <button
+        v-if="next.submit"
+        class="register__button"
+      >
+        회원가입 신청
+      </button>
+    </div>
     <img
       class="register__illust"
       :src="require('../assets/dog-ball.png')"
     />
-    <div class="register__form">
-      <input
-        class="register__input"
-        v-model="form.id"
-      />
-      <input
-        class="register__input"
-        v-model="form.password"
-      />
-      <button>회원가입 신청</button>
-    </div>
   </div>
 </template>
 
@@ -83,7 +107,54 @@ export default {
   }
 
   &__illust {
-    width: 30%;
+    width: 80%;
+    z-index: -1;
+    position: absolute;
+    right: -250px;
+    bottom: 0;
+  }
+
+  &__form {
+    width: 45%;
+    margin-left: 3rem;
+  }
+
+  &__help {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__input {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    font-size: 2rem;
+    font-family: 'Spoqa Han Sans';
+    font-weight: 300;
+    padding: 0.7rem;
+    border: 1px solid #A7A7A7;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    &::placeholder {
+      color: #A7A7A7;
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    color: white;
+    width: 100%;
+    padding: 0.5rem;
+    display: block;
+    font-size: 2rem;
+    font-size: 2rem;
+    font-family: 'Spoqa Han Sans';
+    font-weight: 300;
+    background: linear-gradient(to right, #FECC6F, #FAAC30);
+    border: 0;
+    border-radius: 10px;
   }
 }
 </style>

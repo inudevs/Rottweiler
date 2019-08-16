@@ -47,6 +47,7 @@ export default {
         placeholder="아… 이디"
         v-model="form.id"
         autocomplete="new-username"
+        autofocus
       />
       <input
         class="login__input"
@@ -110,7 +111,7 @@ export default {
     &-link {
       cursor: pointer;
       width: fit-content;
-      font-family: 'Spoqa Han Sans';
+      font-family: 'Nanum Square';
       font-weight: 300;
       display: block;
       margin-left: 1.5rem;
