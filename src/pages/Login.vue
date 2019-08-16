@@ -34,6 +34,12 @@ export default {
       <span class="login__title login__title-desc">
         INU 프로젝트 관리 솔루션, 로트바일러
       </span>
+      <span
+        class="login__title login__title-link"
+        @click="$router.push({ name: 'register' })"
+      >
+        계정 없으면 <strong>가입</strong>해라 멍
+      </span>
     </h1>
     <div class="login__form">
       <input
@@ -67,7 +73,6 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: #FFFCED;
 
   &__title {
     font-family: 'yg-jalnan';
@@ -100,6 +105,23 @@ export default {
       color: #FAAC30;
       -webkit-text-stroke-width: 0;
       line-height: unset;
+    }
+
+    &-link {
+      cursor: pointer;
+      width: fit-content;
+      font-family: 'Spoqa Han Sans';
+      font-weight: 300;
+      display: block;
+      margin-left: 1.5rem;
+      font-size: 1.2rem;
+      color: #A7A7A7;
+      -webkit-text-stroke-width: 0;
+      line-height: unset;
+
+      &:hover {
+        color: rgb(97, 97, 97);
+      }
     }
   }
 
