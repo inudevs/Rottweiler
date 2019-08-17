@@ -29,7 +29,7 @@ export default new Router({
     {
       path: '/auth/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "login" */ './pages/Register.vue')
+      component: () => import(/* webpackChunkName: "register" */ './pages/Register.vue')
     },
   ],
 });

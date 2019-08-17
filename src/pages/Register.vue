@@ -8,7 +8,7 @@ export default {
         submit: false,
       },
       form: {
-        id: '',
+        username: '',
         password: '',
       },
     };
@@ -33,7 +33,7 @@ export default {
       <input
         class="register__input"
         placeholder="멋진 사용자 이름"
-        v-model="form.id"
+        v-model="form.username"
         @keypress="next.password = true"
         autocomplete="new-username"
         autofocus

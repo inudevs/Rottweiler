@@ -4,14 +4,14 @@ export default {
   data() {
     return {
       form: {
-        id: '',
+        username: '',
         password: '',
       },
     };
   },
   methods: {
     async onClick() {
-      if (!this.form.id || !this.form.password) return;
+      if (!this.form.username || !this.form.password) return;
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
         this.$store.commit('login', data.token);
@@ -19,6 +19,7 @@ export default {
         this.$router.push('/');
       } catch (error) {
         console.error(error);
+        await this.$swal('에러!', '로그인에 실패했습니다.', 'error');
       }
     },
   },
@@ -45,7 +46,7 @@ export default {
       <input
         class="login__input"
         placeholder="아… 이디"
-        v-model="form.id"
+        v-model="form.username"
         autocomplete="new-username"
         autofocus
       />
@@ -56,7 +57,10 @@ export default {
         v-model="form.password"
         autocomplete="new-password"
       />
-      <button class="login__button">
+      <button
+        class="login__button"
+        @click="onClick"
+      >
         틀리면 물린다
       </button>
     </div>
