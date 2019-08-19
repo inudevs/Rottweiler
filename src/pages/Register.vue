@@ -13,6 +13,18 @@ export default {
       },
     };
   },
+  methods: {
+    async onClick() {
+      try {
+        await this.$api.post('/auth/register', this.form);
+        this.$swal('가입 완료!', '이제 로그인을 해주세요.', 'success');
+        this.$router.push({ name: 'login' });
+      } catch (error) {
+        console.error(error);
+        await this.$swal('에러!', '회원 가입에 실패했습니다.', 'error');
+      }
+    },
+  },
 };
 </script>
 
