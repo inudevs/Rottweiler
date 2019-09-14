@@ -1,21 +1,29 @@
 import Vue from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
-import axios from 'axios';
 
 import Jovian from './jovian';
 
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import createAPI from './axios';
 
 // eslint-disable-next-line import/extensions
 import 'normalize-scss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-Vue.prototype.$api = axios.create({
-  baseURL: 'http://localhost:5000/',
+const api = createAPI(store);
+
+api.interceptors.response.use(response => response, (error) => {
+  if (error.response.status === 401) {
+    store.commit('logout');
+    router.push({ name: 'login' });
+  }
+  return Promise.reject(error);
 });
+
+Vue.prototype.$api = api;
 
 Vue.use(Jovian);
 Vue.use(VueSweetalert2);

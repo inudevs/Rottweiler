@@ -22,12 +22,17 @@ export default {
       }
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
-        this.$store.commit('login', data.token, data.id);
+        this.$store.commit('login', data);
         this.$router.push('/');
+        this.$router.go();
       } catch (error) {
         const { message } = error.response.data;
         await this.$swal('에러!', message, 'error');
       }
+    },
+    onClickDimigoAuth() {
+      // eslint-disable-next-line no-alert
+      window.alert('준비중입니다.');
     },
   },
 };
@@ -57,7 +62,9 @@ export default {
         </jovian-button>
       </div>
       <div class="login__options">
-        <span>디미고 계정으로 로그인</span>
+        <span @click="onClickDimigoAuth">
+          디미고 계정으로 로그인
+        </span>
         <span @click="$router.push({ name: 'register' })">
           회원가입
         </span>
