@@ -23,7 +23,6 @@ export default {
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
         this.$store.commit('login', data.token, data.id);
-        console.log(data)
         this.$router.push('/');
       } catch (error) {
         const { message } = error.response.data;
