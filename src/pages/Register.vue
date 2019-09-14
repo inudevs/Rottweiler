@@ -1,27 +1,46 @@
 <script>
+import DefaultAuth from '../defaults/DefaultAuth.vue';
+
 export default {
   name: 'Register',
+  components: {
+    DefaultAuth,
+  },
   data() {
     return {
-      next: {
-        password: false,
-        submit: false,
-      },
-      form: {
-        username: '',
+      tab: 0,
+      user: {
+        type: '',
+        id: '',
         password: '',
       },
     };
   },
+  computed: {
+    userType() {
+      return ['dimigo', 'user'][this.tab];
+    },
+  },
   methods: {
     async onClick() {
+      if (!this.user.id || !this.user.password) {
+        await this.$swal('에러!', '모든 입력란을 채워주세요!', 'error');
+        return;
+      }
       try {
-        await this.$api.post('/auth/register', this.form);
-        this.$swal('가입 완료!', '이제 로그인을 해주세요.', 'success');
+        this.user.type = this.userType;
+        await this.$api.post('/auth/join', {
+          user: this.user,
+        });
+        this.$swal(
+          '가입 완료!',
+          (this.tab) ? '이제 로그인을 해주세요.' : '디미고 계정에 연결된 이메일로 로그인을 해주세요.',
+          'success',
+        );
         this.$router.push({ name: 'login' });
       } catch (error) {
-        console.error(error);
-        await this.$swal('에러!', '회원 가입에 실패했습니다.', 'error');
+        const { message } = error.response.data;
+        await this.$swal('에러!', message, 'error');
       }
     },
   },
@@ -29,144 +48,90 @@ export default {
 </script>
 
 <template>
-  <div class="register">
-    <h1 class="register__title">
-      <span class="register__title register__title-top">시바</span>
-      <span class="register__title register__title-center">이누만</span>
-      <span class="register__title register__title-bottom">와라</span>
-      <span class="register__title register__title-desc">
-        INU의 모든 프로젝트를,<br />한눈에.
-      </span>
-    </h1>
-    <div class="register__form">
-      <span class="register__help">
-        사용자 이름은 지금 사용하고 계시는 <strong>깃허브 계정</strong>과 같은 걸 사용해주세요!
-      </span>
-      <input
-        class="register__input"
-        placeholder="멋진 사용자 이름"
-        v-model="form.username"
-        @keypress="next.password = true"
-        autocomplete="new-username"
-        autofocus
-      />
-      <div v-if="next.password">
-        <span class="register__help">
-          여러분의 <strong>소중한 패스워드</strong>는 scrypt로 해싱한 뒤에 저장할 거예요!
-        </span>
-        <input
-          class="register__input"
-          placeholder="비밀스러운 패스워드"
-          v-model="form.password"
-          @keypress="next.submit = true"
-          autocomplete="new-password"
-        />
-      </div>
-      <button
-        v-if="next.submit"
-        class="register__button"
+  <default-auth title="회원가입">
+    <div class="register">
+      <ul class="register__tabs">
+        <li
+          v-for="(item, key) in ['디미고 계정으로 회원가입', '일반 사용자 회원가입']"
+          :key="key"
+          :class="{ selected: key === tab }"
+          @click="tab = key"
+        >
+          {{ item }}
+        </li>
+      </ul>
+      <div
+        v-if="!tab"
+        class="register__content"
       >
-        회원가입 신청
-      </button>
+        <p class="register__desc">
+          기존 <strong>디미고 계정</strong>에 로그인해서<br />
+          빠르게 INU 통합 계정을 만드세요!
+        </p>
+        <div class="register__form">
+          <jovian-input
+            class="register__input"
+            v-model="user.id"
+            placeholder="디미고 계정 아이디"
+            :autofocus="true"
+          />
+          <jovian-input
+            class="register__input"
+            v-model="user.password"
+            placeholder="디미고 계정 패스워드"
+            type="password"
+          />
+          <jovian-button
+            class="register__button"
+            @click="onClick"
+          >
+            LOGIN
+          </jovian-button>
+        </div>
+      </div>
+      <div
+        v-else
+        class="register__content"
+      >
+        <p class="register__desc">
+          준비중입니다.
+        </p>
+      </div>
     </div>
-    <img
-      class="register__illust"
-      :src="require('../assets/dog-ball.png')"
-    />
-  </div>
+  </default-auth>
 </template>
 
 <style lang="scss" scoped>
 .register {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
 
-  &__title {
-    font-family: 'yg-jalnan';
-    font-size: 6rem;
-    line-height: 1.1;
-    margin-left: 1.5rem;
+  &__tabs {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
 
-    &-top {
-      display: block;
-      -webkit-text-stroke-width: 4px;
-      -webkit-text-stroke-color: #000;
-      color: transparent;
+    li {
+      cursor: pointer;
+      padding: 0.8rem 1.2rem;
+      transition: border-width 0.1s linear;
+      user-select: none;
     }
 
-    &-center {
-      display: block;
-    }
-
-    &-bottom {
-      display: block;
-      -webkit-text-stroke-width: 4px;
-      -webkit-text-stroke-color: #000;
-      color: transparent;
-    }
-
-    &-desc {
-      display: block;
-      margin-left: 1.5rem;
-      font-size: 1.5rem;
-      color: #FAAC30;
-      -webkit-text-stroke-width: 0;
-      line-height: unset;
+    li.selected {
+      color: #F4B81D;
+      border-bottom: 0px solid #F4B81D;
+      border-width: 3px;
     }
   }
 
-  &__illust {
-    width: 80%;
-    z-index: -1;
-    position: absolute;
-    right: -250px;
-    bottom: 0;
+  &__desc {
+    margin-top: 1.5rem;
   }
 
-  &__form {
-    width: 45%;
-    margin-left: 3rem;
-  }
-
-  &__help {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-
-  &__input {
-    width: 100%;
-    box-sizing: border-box;
-    display: block;
-    font-size: 2rem;
-    font-family: 'Spoqa Han Sans';
-    font-weight: 300;
-    padding: 0.7rem;
-    border: 1px solid #A7A7A7;
-    border-radius: 10px;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-
-    &::placeholder {
-      color: #A7A7A7;
-    }
-  }
-
+  &__input,
   &__button {
-    cursor: pointer;
-    color: white;
-    width: 100%;
-    padding: 0.5rem;
-    display: block;
-    font-size: 2rem;
-    font-size: 2rem;
-    font-family: 'Spoqa Han Sans';
-    font-weight: 300;
-    background: linear-gradient(to right, #FECC6F, #FAAC30);
-    border: 0;
-    border-radius: 10px;
+    margin-top: 0.5rem;
   }
 }
 </style>

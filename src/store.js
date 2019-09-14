@@ -1,15 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
-
-const enhanceAccessToken = () => {
-  const { token } = localStorage;
-  if (!token) return;
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-enhanceAccessToken();
 
 export default new Vuex.Store({
   state: {
@@ -18,14 +11,23 @@ export default new Vuex.Store({
     id: '',
   },
   mutations: {
-    login(state, token) {
+    login(state, data) {
+      const { token, id } = data;
       state.isLogin = true;
       state.token = token;
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      state.id = id;
     },
-    saveID(state, _id) {
-      state.id = _id;
+    logout(state) {
+      state.isLogin = false;
+      state.token = '';
+      state.id = '';
     },
   },
+  getters: {
+    isAuth: state => state.isLogin,
+    token: state => state.token,
+  },
+  plugins: [
+    createPersistedState(),
+  ],
 });
