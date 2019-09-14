@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import axios from 'axios';
 
+import Jovian from './jovian';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -15,6 +17,7 @@ Vue.prototype.$api = axios.create({
   baseURL: 'http://localhost:5000/',
 });
 
+Vue.use(Jovian);
 Vue.use(VueSweetalert2);
 
 Vue.config.productionTip = false;

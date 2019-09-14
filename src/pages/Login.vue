@@ -1,6 +1,11 @@
 <script>
+import DefaultAuth from '../defaults/DefaultAuth.vue';
+
 export default {
   name: 'Login',
+  components: {
+    DefaultAuth,
+  },
   data() {
     return {
       form: {
@@ -11,11 +16,14 @@ export default {
   },
   methods: {
     async onClick() {
-      if (!this.form.email || !this.form.password) return;
+      if (!this.form.email || !this.form.password) {
+        await this.$swal('에러!', '모든 입력란을 채워주세요!', 'error');
+        return;
+      }
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
-        this.$store.commit('login', data.token);
-        this.$store.commit('saveID', data.id);
+        this.$store.commit('login', data.token, data.id);
+        console.log(data)
         this.$router.push('/');
       } catch (error) {
         const { message } = error.response.data;
@@ -27,39 +35,27 @@ export default {
 </script>
 
 <template>
-  <div class="container">
+  <default-auth title="로그인">
     <div class="login">
-      <div class="login__header">
-        <img
-          class="login__logo"
-          :src="require('../assets/inu-logo.png')"
-        />
-        <h1 class="login__title">
-          로그인
-        </h1>
-        <span>INU 인트라넷</span>
-      </div>
       <div class="login__form">
-        <input
+        <jovian-input
           class="login__input"
-          placeholder="이메일"
           v-model="form.email"
-          autocomplete="new-username"
-          autofocus
+          placeholder="이메일"
+          :autofocus="true"
         />
-        <input
+        <jovian-input
           class="login__input"
+          v-model="form.password"
           placeholder="패스워드"
           type="password"
-          v-model="form.password"
-          autocomplete="new-password"
         />
-        <button
+        <jovian-button
           class="login__button"
           @click="onClick"
         >
-        LOGIN
-        </button>
+          LOGIN
+        </jovian-button>
       </div>
       <div class="login__options">
         <span>디미고 계정으로 로그인</span>
@@ -68,60 +64,14 @@ export default {
         </span>
       </div>
     </div>
-  </div>
+  </default-auth>
 </template>
 
 <style lang="scss" scoped>
-.container {
-  display: flex;
-  justify-content: center;
-}
-
 .login {
-  width: 500px;
-  text-align: center;
-  padding-top: 2.5rem;
-
-  &__header {
-    padding-bottom: 1.8rem;
-  }
-
-  &__logo {
-    width: 120px;
-    height: 120%;
-  }
-
-  &__title {
-    font-size: 1.5rem;
-    margin: 0.5rem 0;
-  }
 
   &__input {
-    box-sizing: border-box;
     margin-bottom: 0.5rem;
-    width: 100%;
-    font-size: 1.2rem;
-    padding: 0.6rem 0.8rem;
-    border: 0;
-    border-radius: 8px;
-    // background-color: #eeeeee;
-    border: 2px solid #F4B81D;
-    color: black;
-
-    &::placeholder {
-      // color: #F4B81D;
-    }
-  }
-
-  &__button {
-    cursor: pointer;
-    width: 100%;
-    font-size: 1.2rem;
-    padding: 0.6rem 0.8rem;
-    border: 0;
-    border-radius: 8px;
-    color: white;
-    background-color: #F4B81D;
   }
 
   &__options {

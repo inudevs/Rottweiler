@@ -15,6 +15,11 @@ const beforeEnter = (to, from, next) => {
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'home',
+      beforeEnter,
+    },
+    {
       path: '/auth/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "login" */ './pages/Login.vue')

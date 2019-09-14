@@ -18,14 +18,12 @@ export default new Vuex.Store({
     id: '',
   },
   mutations: {
-    login(state, token) {
+    login(state, token, _id) {
       state.isLogin = true;
       state.token = token;
+      state.id = _id;
       localStorage.setItem('token', token);
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    },
-    saveID(state, _id) {
-      state.id = _id;
     },
   },
 });
