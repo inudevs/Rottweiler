@@ -20,6 +20,10 @@ a {
   text-decoration: none;
 }
 
+hr {
+  border-top: 1px solid #f3f3f3;
+}
+
 html,
 body,
 #app {

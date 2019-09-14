@@ -33,6 +33,10 @@ export default {
     width: 500px;
     text-align: center;
     padding-top: 2.5rem;
+
+    @media (max-width: 700px) {
+      width: 80%;
+    }
   }
 
   &__header {

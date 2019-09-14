@@ -63,8 +63,8 @@ export default {
   flex-direction: column;
   width: fit-content;
   border-radius: 15px;
-  padding-top: 1rem;
-  padding-left: 1rem;
+  padding: 1.2rem;
+  padding-bottom: 0.5rem;
   // box-shadow: 15px 19px 32px -18px rgba(21,19,19,.07);
   background-color: white;
 

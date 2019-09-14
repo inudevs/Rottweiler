@@ -17,8 +17,8 @@ const api = createAPI(store);
 
 api.interceptors.response.use(response => response, (error) => {
   if (error.response.status === 401) {
-    store.commit('logout');
-    router.push({ name: 'login' });
+    // store.commit('logout');
+    // router.push({ name: 'login' });
   }
   return Promise.reject(error);
 });
