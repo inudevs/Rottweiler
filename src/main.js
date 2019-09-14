@@ -12,7 +12,7 @@ import 'normalize-scss';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.prototype.$api = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'http://localhost:5000/',
 });
 
 Vue.use(VueSweetalert2);

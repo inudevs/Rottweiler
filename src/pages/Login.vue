@@ -4,22 +4,22 @@ export default {
   data() {
     return {
       form: {
-        username: '',
+        email: '',
         password: '',
       },
     };
   },
   methods: {
     async onClick() {
-      if (!this.form.username || !this.form.password) return;
+      if (!this.form.email || !this.form.password) return;
       try {
         const { data } = await this.$api.post('/auth/login', this.form);
         this.$store.commit('login', data.token);
         this.$store.commit('saveID', data.id);
         this.$router.push('/');
       } catch (error) {
-        console.error(error);
-        await this.$swal('에러!', '로그인에 실패했습니다.', 'error');
+        const { message } = error.response.data;
+        await this.$swal('에러!', message, 'error');
       }
     },
   },
@@ -27,152 +27,122 @@ export default {
 </script>
 
 <template>
-  <div class="login">
-    <h1 class="login__title">
-      <span class="login__title login__title-top">시바</span>
-      <span class="login__title login__title-center">염탐하지</span>
-      <span class="login__title login__title-bottom">마라</span>
-      <span class="login__title login__title-desc">
-        INU 프로젝트 관리 솔루션, 로트바일러
-      </span>
-      <span
-        class="login__title login__title-link"
-        @click="$router.push({ name: 'register' })"
-      >
-        계정 없으면 <strong>가입</strong>해라 멍
-      </span>
-    </h1>
-    <div class="login__form">
-      <input
-        class="login__input"
-        placeholder="아… 이디"
-        v-model="form.username"
-        autocomplete="new-username"
-        autofocus
-      />
-      <input
-        class="login__input"
-        placeholder="패스ㅋ워드"
-        type="password"
-        v-model="form.password"
-        autocomplete="new-password"
-      />
-      <button
-        class="login__button"
-        @click="onClick"
-      >
-        틀리면 물린다
-      </button>
+  <div class="container">
+    <div class="login">
+      <div class="login__header">
+        <img
+          class="login__logo"
+          :src="require('../assets/inu-logo.png')"
+        />
+        <h1 class="login__title">
+          로그인
+        </h1>
+        <span>INU 인트라넷</span>
+      </div>
+      <div class="login__form">
+        <input
+          class="login__input"
+          placeholder="이메일"
+          v-model="form.email"
+          autocomplete="new-username"
+          autofocus
+        />
+        <input
+          class="login__input"
+          placeholder="패스워드"
+          type="password"
+          v-model="form.password"
+          autocomplete="new-password"
+        />
+        <button
+          class="login__button"
+          @click="onClick"
+        >
+        LOGIN
+        </button>
+      </div>
+      <div class="login__options">
+        <span>디미고 계정으로 로그인</span>
+        <span @click="$router.push({ name: 'register' })">
+          회원가입
+        </span>
+      </div>
     </div>
-    <img
-      class="login__illust"
-      :src="require('../assets/dog.png')"
-    />
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: center;
+}
+
 .login {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  position: fixed;
+  width: 500px;
+  text-align: center;
+  padding-top: 2.5rem;
+
+  &__header {
+    padding-bottom: 1.8rem;
+  }
+
+  &__logo {
+    width: 120px;
+    height: 120%;
+  }
 
   &__title {
-    font-family: 'yg-jalnan';
-    font-size: 6rem;
-    line-height: 1.1;
-    margin-left: 1.5rem;
-
-    &-top {
-      display: block;
-      -webkit-text-stroke-width: 4px;
-      -webkit-text-stroke-color: #000;
-      color: transparent;
-    }
-
-    &-center {
-      display: block;
-    }
-
-    &-bottom {
-      display: block;
-      -webkit-text-stroke-width: 4px;
-      -webkit-text-stroke-color: #000;
-      color: transparent;
-    }
-
-    &-desc {
-      display: block;
-      margin-left: 1.5rem;
-      font-size: 1.5rem;
-      color: #FAAC30;
-      -webkit-text-stroke-width: 0;
-      line-height: unset;
-    }
-
-    &-link {
-      cursor: pointer;
-      width: fit-content;
-      font-family: 'Nanum Square';
-      font-weight: 300;
-      display: block;
-      margin-left: 1.5rem;
-      font-size: 1.2rem;
-      color: #A7A7A7;
-      -webkit-text-stroke-width: 0;
-      line-height: unset;
-
-      &:hover {
-        color: rgb(97, 97, 97);
-      }
-    }
-  }
-
-  &__illust {
-    width: 50%;
-    z-index: -1;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-
-  &__form {
-    width: 40%;
-    margin-left: 3rem;
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
   }
 
   &__input {
-    width: 100%;
     box-sizing: border-box;
-    display: block;
-    font-size: 2rem;
-    font-family: 'Spoqa Han Sans';
-    font-weight: 300;
-    padding: 0.7rem;
-    border: 1px solid #A7A7A7;
-    border-radius: 10px;
     margin-bottom: 0.5rem;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 0.6rem 0.8rem;
+    border: 0;
+    border-radius: 8px;
+    // background-color: #eeeeee;
+    border: 2px solid #F4B81D;
+    color: black;
 
     &::placeholder {
-      color: #A7A7A7;
+      // color: #F4B81D;
     }
   }
 
   &__button {
     cursor: pointer;
-    color: white;
     width: 100%;
-    padding: 0.5rem;
-    display: block;
-    font-size: 2rem;
-    font-size: 2rem;
-    font-family: 'Spoqa Han Sans';
-    font-weight: 300;
-    background: linear-gradient(to right, #FECC6F, #FAAC30);
+    font-size: 1.2rem;
+    padding: 0.6rem 0.8rem;
     border: 0;
-    border-radius: 10px;
+    border-radius: 8px;
+    color: white;
+    background-color: #F4B81D;
+  }
+
+  &__options {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+
+    span {
+      cursor: pointer;
+      transition: all 0.2ms;
+    }
+
+    span:last-child {
+      margin-top: 0.2rem;
+    }
+
+    span:hover {
+      color: #F4B81D;
+    }
   }
 }
 </style>

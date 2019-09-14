@@ -5,15 +5,15 @@
 </template>
 
 <style lang="scss">
-@font-face {
-  font-family: 'yg-jalnan';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+@import './scss/font-faces';
 
 * {
-  font-family: 'Nanum Square';
+  font-family: 'S-CoreDream-3Light', sans-serif !important;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 }
 
 a {

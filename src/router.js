@@ -4,7 +4,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import store from './store';
-import Index from './pages/Index.vue';
 
 Vue.use(Router);
 
@@ -15,12 +14,6 @@ const beforeEnter = (to, from, next) => {
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'index',
-      beforeEnter,
-      component: Index,
-    },
     {
       path: '/auth/login',
       name: 'login',
