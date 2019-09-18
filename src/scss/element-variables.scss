@@ -1,0 +1,15 @@
+/* theme color */
+$--color-primary: #F4B81D;
+
+/* icon font path, required */
+$--font-path: './theme/fonts';
+
+@font-face {
+  font-family: element-icons;
+  src: url(./theme/fonts/element-icons.woff) format("woff"), url(./theme/fonts/element-icons.ttf) format("truetype");
+  font-weight: 400;
+  font-display: "auto";
+  font-style: normal;
+}
+
+@import "./theme/index";

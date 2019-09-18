@@ -1,172 +1,122 @@
 <script>
-import { mapState } from 'vuex';
-
 export default {
-  async created() {
-    await this.getUserInfo();
-  },
   data() {
     return {
-      user: {},
-      loaded: false,
+      services: [],
     };
   },
-  computed: {
-    ...mapState({
-      token: state => state.token,
-      userID: state => state.id,
-    }),
+  async created() {
+    await this.getServices();
   },
   methods: {
-    async getUserInfo() {
-      try {
-        const { data } = await this.$api.get('/user');
-        this.loaded = true;
-        this.user = data;
-      } catch (error) {
-        console.error(error);
-      }
+    async getServices() {
+      const { data } = await this.$api.get('/service');
+      this.services = data.map(({ name, route, proxy, address, timestamp }) => ({
+        name,
+        route, 
+        proxy: proxy.toString(),
+        address: address || '없음',
+        date: this.$moment(timestamp).format('LLL'),
+      }))
     },
   },
 };
 </script>
 
 <template>
-  <div class="index">
-    <div
-      v-if="loaded"
-      class="index__wrap"
-    >
-      <jovian-profile :user=user />
-      <hr />
-      <div
-        v-if="false"
-        class="forbidden"
-      >
-        <span class="forbidden__title">INU 동아리원이 아닙니다.</span>
-        <span class="forbidden__desc">관리자에게 연락하세요.</span>
+  <el-container class="index">
+    <el-aside width="200px">
+      <div class="index__brand">
+        <img
+          class="index__logo"
+          :src="require('../assets/inu-logo.png')"
+        />
       </div>
-      <div
-        v-else
-        class="index__content"
-      >
-        <div class="index__form">
-          <h1 class="index__form-title">
-            <img
-              class="index__icon"
-              :src="require('../assets/icons/pencil.svg')"
-            /> 진행사항 공유하기
-          </h1>
-          <textarea
-            class="index__form-textarea"
-            placeholder="오늘 한 작업에 대한 간단한 요약"
+      <el-menu :default-openeds="['1']" default-active="1-1">
+        <el-submenu index="1">
+          <template slot="title"><i class="el-icon-message"></i>서비스</template>
+          <el-menu-item-group title="서비스 관리">
+            <el-menu-item index="1-1">서비스 목록</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="서비스 API 키">
+            <el-menu-item index="2-1">API 키 목록</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+      <el-header class="index__header">
+        <h1 class="index__header-title">
+          <i class="el-icon-s-promotion" /> 서비스 관리
+        </h1>
+        <p class="index__header-desc">INU 서비스 리스트</p>
+      </el-header>
+
+      <el-main>
+        <el-table :data="services">
+          <el-table-column
+            className="index__service-name"
+            prop="name"
+            label="서비스 이름"
           />
-          <div class="index__form-toolbar">
-            <div class="index__form-select">
-              <span>프로젝트</span>
-              <select>
-                <option>래브라도</option>
-              </select>
-            </div>
-            <jovian-button
-              class="index__form-button"
-            >
-              글쓰기
-            </jovian-button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <el-table-column prop="route" label="서비스 식별자" />
+          <el-table-column prop="proxy" label="서비스 프록시" />
+          <el-table-column prop="address" label="API 주소" />
+          <el-table-column prop="date" label="생성일" />
+        </el-table>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
-<style lang="scss" scoped>
-.forbidden {
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-
-  &__title {
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-}
-
+<style lang="scss">
 .index {
   height: 100%;
 
-  &__icon {
-    height: 1rem;
+  i {
+    color: #F4B81D;
   }
 
-  &__wrap {
+  .el-menu {
     height: 100%;
   }
 
-  &__content {
+  .el-header {
+    height: unset !important;
+    padding-top: 1.5rem;
+    padding-bottom: 0.2rem;
+    border-bottom: .5px dashed #F4B81D;
+  }
+
+  &__brand {
     display: flex;
-    flex-direction: column;
-    justify-items: center;
+    justify-content: center;
+    align-items: center;
   }
 
-  &__form {
-    margin: auto;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    border-bottom: 2px solid #f3f3f3;
-
-    @media (max-width: 500px) {
-      width: 80%;
-    }
+  &__logo {
+    width: 100px;
+    margin-top: 1.2rem;
   }
 
-  &__form-title {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
+  &__header-title {
+    margin: 0;
+    font-size: 1.4rem;
   }
 
-  &__form-toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  &__form-select {
+  &__header-desc {
+    padding: 0;
     font-size: 1rem;
-
-    span {
-      vertical-align: center;
-      margin-right: 0.5rem;
-    }
-
-    select {
-      font-size: 1rem;
-      box-sizing: border-box;
-      vertical-align: center;
-    }
+    margin-top: 0.2rem;
   }
 
-  &__form-textarea {
-    width: 100%;
-    background-color: #f3f3f3;
-    border: 0;
-    border-radius: 20px;
-    box-sizing: border-box;
-    resize: none;
-    font-size: 1rem;
-    padding: 1.2rem 1.5rem;
+  .el-main {
+    padding-top: 0;
   }
 
-  &__form-button {
-    border-radius: 20px;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    font-size: 1rem;
-    width: fit-content;
+  &__service-name {
+    font-weight: bold;
   }
 }
 </style>

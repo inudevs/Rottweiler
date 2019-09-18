@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+import ElementUI from 'element-ui';
+import moment from 'moment';
 
 import Jovian from './jovian';
 
@@ -12,6 +14,7 @@ import createAPI from './axios';
 import 'normalize-scss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'sweetalert2/dist/sweetalert2.min.css';
+import './scss/element-variables.scss';
 
 const api = createAPI(store);
 
@@ -23,9 +26,13 @@ api.interceptors.response.use(response => response, (error) => {
   return Promise.reject(error);
 });
 
+moment.locale('ko');
+
 Vue.prototype.$api = api;
+Vue.prototype.$moment = moment;
 
 Vue.use(Jovian);
+Vue.use(ElementUI);
 Vue.use(VueSweetalert2);
 
 Vue.config.productionTip = false;
