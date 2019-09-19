@@ -19,10 +19,10 @@ export default {
     };
   },
   async created() {
-    await this.getServiceKeys();
+    await this.getUsers();
   },
   methods: {
-    async getServiceKeys() {
+    async getUsers() {
       try {
         const { data } = await this.$api.get('/user');
         this.users = data.map(({
@@ -39,7 +39,40 @@ export default {
         }));
         this.loading = false;
       } catch (err) {
-        console.error(err);
+        const { message } = err.response.data;
+        await this.$swal('에러!', message, 'error');
+      }
+    },
+    async onClickPerm(user) {
+      if (user.admin) {
+        await this.$swal('부여할 권한이 없습니다!', '이미 관리자 권한을 가진 사용자입니다.', 'error');
+        return;
+      }
+      const type = user.inu ? 'admin' : 'inu';
+      const { value: answer } = await this.$swal({
+        type: 'warning',
+        text: `사용자 '${user.name}'에게 ${user.inu ? '관리자' : 'INU 동아리원'} 권한을 부여하시겠습니까?`,
+        confirmButtonColor: '#F56C6C',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소',
+        showCancelButton: true,
+      });
+      if (!answer) return;
+
+      try {
+        await this.$api.post('/auth/assign', {
+          id: user.id,
+          type,
+        });
+        this.$swal(
+          '권한을 부여했습니다!',
+          '',
+          'success',
+        );
+        await this.getUsers();
+      } catch (err) {
+        const { message } = err.response.data;
+        await this.$swal('에러!', message, 'error');
       }
     },
   },
@@ -78,12 +111,12 @@ export default {
               type="info"
               icon="el-icon-s-custom"
               circle plain
+              @click="onClickPerm(scope.row)"
             />
             <el-button
               type="danger"
               icon="el-icon-delete"
               circle plain
-              @click="deleteKey(scope.row.id)"
               disabled
             />
           </template>
