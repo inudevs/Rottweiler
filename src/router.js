@@ -5,6 +5,7 @@ import Router from 'vue-router';
 import store from './store';
 
 import Index from './pages/Index.vue';
+import { ServiceKey, ServiceList } from './pages/service';
 
 Vue.use(Router);
 
@@ -14,6 +15,22 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Index,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/service',
+      name: 'service',
+      component: ServiceList,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/service/:serviceID',
+      name: 'serviceKey',
+      component: ServiceKey,
       meta: {
         requireAuth: true,
       },
