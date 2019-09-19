@@ -76,7 +76,8 @@ export default {
           title="새로운 서비스 생성하기"
           width="200"
           trigger="hover"
-          content="(준비중) 서비스를 생성해 프로젝트를 편하게 관리하세요.">
+          content="(준비중) 서비스를 생성해 프로젝트를 편하게 관리하세요."
+        >
           <el-button
             slot="reference"
             class="service-list__button"

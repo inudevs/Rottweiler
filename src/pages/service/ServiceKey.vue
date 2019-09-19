@@ -122,7 +122,8 @@ export default {
           title="새로운 API 키 생성하기"
           width="200"
           trigger="hover"
-          content="통합 API 및 프록시를 사용하기 위해 서비스의 API 키를 생성하고 사용할 수 있습니다.">
+          content="통합 API 및 프록시를 사용하기 위해 서비스의 API 키를 생성하고 사용할 수 있습니다."
+        >
           <el-button
             slot="reference"
             class="service-key__button"

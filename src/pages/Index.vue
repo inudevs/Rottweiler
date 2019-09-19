@@ -8,13 +8,28 @@ export default {
   data() {
     return {
       logs: [],
+      start: '',
+      end: '',
+      dataset: {
+        status: [],
+        recent: [],
+      },
       colors: [
-        '#67c23a',
-        '#e1f3d8',
         '#ffe8ad',
         '#ffd569',
         '#f56c6c',
+        '#dd594d',
+        '#da3366',
       ],
+      fields: {
+        logs: [
+          { prop: 'method', label: '메소드' },
+          { prop: 'path', label: '경로' },
+          { prop: 'status', label: '상태' },
+          { prop: 'elapsed', label: '처리 시간' },
+          { prop: 'date', label: '처리 날짜' },
+        ],
+      },
     };
   },
   async mounted() {
@@ -23,10 +38,23 @@ export default {
   methods: {
     async getLogs() {
       const { data: { start, end, logs } } = await this.$api.get('/log');
-      this.logs = [200, 304, 401, 404, 500].map(status => [
+      this.logs = logs.map(({
+        method, path, status, elapsed, timestamp,
+      }) => ({
+        method,
+        path,
         status,
-        logs.filter(log => log.status == status).length
+        elapsed: `${elapsed}ms`,
+        date: this.$moment(timestamp).fromNow(),
+      }));
+      this.logs = this.logs.sort((a, b) => a.log - b.log);
+      this.dataset.status = [200, 304, 401, 404, 500].map(status => [
+        status,
+        logs.filter(log => log.status === status).length,
       ]);
+      this.dataset.recent = this.logs.slice(-5);
+      this.start = this.$moment(start).format('LLL');
+      this.end = this.$moment(end).format('LLL');
     },
   },
 };
@@ -40,15 +68,75 @@ export default {
   >
     <template v-slot:main>
       <el-card>
-        <pie-chart
-          :donut="true"
-          :data="logs"
-          :colors="colors"
-        />
+        <el-row class="index__row">
+          <div class="index__requests">
+            <el-popover
+              placement="top-start"
+              title="대시보드를 제외한 하루 전까지의 모든 요청에 대한 데이터입니다."
+              width="500"
+              trigger="hover"
+              :content="`${start} ~ ${end}`"
+            >
+              <span
+                slot="reference"
+                class="index__requests-top"
+              >
+                최근 24시간
+              </span>
+            </el-popover>
+            <span class="index__requests-value">
+              요청 {{ logs.length }}개
+            </span>
+            <el-table
+              :data="dataset.recent"
+              style="width: 100%"
+            >
+              <el-table-column
+                v-for="(item, idx) in fields.logs"
+                :key="idx"
+                :prop="item.prop"
+                :label="item.label"
+              />
+            </el-table>
+          </div>
+          <pie-chart
+            width="50%"
+            :donut="true"
+            :data="dataset.status"
+            :colors="colors"
+            :legend="{display:false}"
+          />
+        </el-row>
       </el-card>
     </template>
   </default-page>
 </template>
 
 <style lang="scss">
+.index {
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__requests {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__requests-top {
+    font-size: 2rem;
+  }
+
+  &__requests-value {
+    font-size: 3rem;
+  }
+
+  &__requests-period {
+    font-size: 1rem;
+  }
+}
 </style>
