@@ -36,11 +36,6 @@ export default {
     color: #F4B81D;
   }
 
-  .el-menu {
-    height: calc(100% - 120px);
-    padding-top: 0;
-  }
-
   .el-header {
     height: unset !important;
     padding-top: 1.5rem;

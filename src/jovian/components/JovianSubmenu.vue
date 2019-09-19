@@ -16,17 +16,20 @@ export default {
 </script>
 
 <template>
-  <el-aside width="200px">
+  <el-aside width="200px" class="submenu">
     <el-menu
       :default-openeds="['2']"
       :default-active="active"
     >
-      <div class="submenu__brand">
+      <router-link
+        to="/"
+        class="submenu__brand"
+      >
         <img
           class="submenu__logo"
           :src="require('../../assets/inu-logo.png')"
         />
-      </div>
+      </router-link>
       <el-menu-item
         @click="logout"
       >
@@ -63,8 +66,13 @@ export default {
   </el-aside>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .submenu {
+
+  .el-menu {
+    height: 100%;
+    padding-top: 0;
+  }
 
   &__brand {
     display: flex;

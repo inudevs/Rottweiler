@@ -8,6 +8,9 @@ export default {
   data() {
     return {
       keys: [],
+      modal: {
+        create: false,
+      },
     };
   },
   computed: {
@@ -24,11 +27,27 @@ export default {
         const { data } = await this.$api.get(`/service/${this.serviceID}/key`);
         this.keys = data.map(({ id, latest, timestamp }) => ({
           id,
-          latest: this.$moment(latest).format('LLL'),
+          latest: this.$moment(latest).fromNow(),
           date: this.$moment(timestamp).format('LLL'),
         }));
       } catch (err) {
-        console.error(err);
+        const { message } = error.response.data;
+        await this.$swal('에러!', message, 'error');
+      }
+    },
+    async createKey() {
+      try {
+        await this.$api.post(`/service/${this.serviceID}/key`);
+        this.modal.create = false;
+        this.$swal(
+          '새로운 API 키를 생성했습니다!',
+          '지금 바로 이용하실 수 있습니다.',
+          'success',
+        );
+        await this.getServiceKeys();
+      } catch (err) {
+        const { message } = err.response.data;
+        await this.$swal('에러!', message, 'error');
       }
     },
   },
@@ -37,7 +56,7 @@ export default {
 
 <template>
   <default-page
-    class="service-list"
+    class="service-key"
     icon="el-icon-s-promotion"
     title="서비스 정보"
     desc="서비스 관리 및 API 키"
@@ -49,14 +68,14 @@ export default {
         empty-text="데이터가 없습니다."
       >
         <el-table-column
-          className="service-list__service-name"
+          className="service-key__api-key"
           prop="id"
           label="API 키"
         />
         <el-table-column prop="latest" label="최근 사용" />
         <el-table-column prop="date" label="생성일" />
       </el-table>
-      <el-row class="service-list__buttons">
+      <el-row class="service-key__buttons">
         <el-popover
           placement="top-start"
           title="새로운 API 키 생성하기"
@@ -65,25 +84,48 @@ export default {
           content="통합 API 및 프록시를 사용하기 위해 서비스의 API 키를 생성하고 사용할 수 있습니다.">
           <el-button
             slot="reference"
-            class="service-list__button"
+            class="service-key__button"
             type="primary"
             icon="el-icon-plus"
             circle
+            @click="modal.create = true"
           />
         </el-popover>
       </el-row>
+
+      <el-dialog
+        class="service-key__modal"
+        title="서비스 API 키 생성"
+        :visible.sync="modal.create"
+        :before-close="handleClose"
+      >
+        <p>새로운 API 키를 생성합니다.</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button
+            @click="dialogVisible = false"
+          >
+            취소
+          </el-button>
+          <el-button
+            type="primary"
+            @click="createKey()"
+          >
+            생성
+          </el-button>
+        </span>
+      </el-dialog>
     </template>
   </default-page>
 </template>
 
 <style lang="scss">
-.service-list {
+.service-key {
 
   .el-table__row {
     cursor: pointer;
   }
 
-  &__service-name {
+  &__api-key {
     font-weight: bold;
   }
 
@@ -96,6 +138,13 @@ export default {
 
     i {
       font-size: 1.5rem;
+    }
+  }
+
+  &__modal {
+
+    p {
+      margin: 0;
     }
   }
 }
