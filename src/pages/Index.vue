@@ -77,16 +77,18 @@ export default {
               trigger="hover"
               :content="`${start} ~ ${end}`"
             >
-              <span
+              <div
                 slot="reference"
-                class="index__requests-top"
+                class="index__requests-col"
               >
-                최근 24시간
-              </span>
+                <span class="index__requests-top">
+                  최근 24시간
+                </span>
+                <span class="index__requests-value">
+                  요청 {{ logs.length }}개
+                </span>
+              </div>
             </el-popover>
-            <span class="index__requests-value">
-              요청 {{ logs.length }}개
-            </span>
             <el-table
               :data="dataset.recent"
               style="width: 100%"
@@ -123,6 +125,9 @@ export default {
 
   &__requests {
     width: 70%;
+  }
+
+  &__requests-col {
     display: flex;
     flex-direction: column;
   }
@@ -133,6 +138,8 @@ export default {
 
   &__requests-value {
     font-size: 3rem;
+    font-weight: bold;
+    line-height: 1.5;
   }
 
   &__requests-period {
