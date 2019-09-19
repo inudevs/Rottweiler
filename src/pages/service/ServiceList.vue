@@ -7,6 +7,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       services: [],
     };
   },
@@ -27,6 +28,7 @@ export default {
           address: address || '없음',
           date: this.$moment(timestamp).format('LLL'),
         }));
+        this.loading = false;
       } catch (err) {
         console.error(err);
       }
@@ -53,6 +55,7 @@ export default {
   >
     <template v-slot:main>
       <el-table
+        v-loading="loading"
         :data="services"
         empty-text="데이터가 없습니다."
         @row-click="onClickService"

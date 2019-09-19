@@ -7,6 +7,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       keys: [],
       modal: {
         create: false,
@@ -30,8 +31,9 @@ export default {
           latest: this.$moment(latest).fromNow(),
           date: this.$moment(timestamp).format('LLL'),
         }));
+        this.loading = false;
       } catch (err) {
-        const { message } = error.response.data;
+        const { message } = err.response.data;
         await this.$swal('에러!', message, 'error');
       }
     },
