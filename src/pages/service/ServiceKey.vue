@@ -52,6 +52,30 @@ export default {
         await this.$swal('에러!', message, 'error');
       }
     },
+    async deleteKey(key) {
+      const { value: answer } = await this.$swal({
+        type: 'warning',
+        text: '정말 삭제하시겠습니까?',
+        confirmButtonColor: '#F56C6C',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소',
+        showCancelButton: true,
+      });
+      if (!answer) return;
+
+      try {
+        await this.$api.delete(`/service/key/${key}`);
+        await this.getServiceKeys();
+        this.$swal(
+          '삭제했습니다.',
+          '',
+          'success',
+        );
+      } catch (err) {
+        const { message } = err.response.data;
+        await this.$swal('에러!', message, 'error');
+      }
+    },
   },
 };
 </script>
@@ -76,6 +100,21 @@ export default {
         />
         <el-table-column prop="latest" label="최근 사용" />
         <el-table-column prop="date" label="생성일" />
+        <el-table-column label="관리">
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle plain disabled
+            />
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              circle plain
+              @click="deleteKey(scope.row.id)"
+            />
+          </template>
+        </el-table-column>
       </el-table>
       <el-row class="service-key__buttons">
         <el-popover
@@ -99,7 +138,6 @@ export default {
         class="service-key__modal"
         title="서비스 API 키 생성"
         :visible.sync="modal.create"
-        :before-close="handleClose"
       >
         <p>새로운 API 키를 생성합니다.</p>
         <span slot="footer" class="dialog-footer">
