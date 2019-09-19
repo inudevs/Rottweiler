@@ -18,7 +18,7 @@ export default {
 <template>
   <el-aside width="200px" class="submenu">
     <el-menu
-      :default-openeds="['2']"
+      :default-openeds="['2', '3']"
       :default-active="active"
     >
       <router-link
@@ -59,6 +59,19 @@ export default {
             :disabled="active != '2-2-1'"
           >
             API 키 목록
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-user-solid" />사용자
+        </template>
+        <el-menu-item-group title="사용자 관리">
+          <el-menu-item
+            index="3-1-1"
+            @click="$router.push({ name: 'user' })"
+          >
+            사용자 목록
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
