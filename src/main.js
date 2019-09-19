@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+// eslint-disable-next-line import/extensions
+import Chartkick from 'vue-chartkick';
+import Chart from 'chart.js';
 import ElementUI from 'element-ui';
 import moment from 'moment';
 
@@ -34,6 +37,7 @@ Vue.prototype.$moment = moment;
 Vue.use(Jovian);
 Vue.use(ElementUI);
 Vue.use(VueSweetalert2);
+Vue.use(Chartkick.use(Chart));
 
 Vue.config.productionTip = false;
 

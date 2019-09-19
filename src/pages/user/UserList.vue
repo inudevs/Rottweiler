@@ -85,7 +85,7 @@ export default {
     icon="el-icon-s-promotion"
     title="사용자 관리"
     desc="INU 사용자 리스트"
-    active="2-1-1"
+    active="3-1-1"
   >
     <template v-slot:main>
       <el-table
