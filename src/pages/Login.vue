@@ -21,14 +21,38 @@ export default {
         return;
       }
       try {
-        const { data } = await this.$api.post('/auth/login', this.form);
-        this.$store.commit('login', data);
-        this.$router.push('/');
-        this.$router.go();
+        await this.login();
       } catch (error) {
-        const { message } = error.response.data;
+        const { status, data: { message } } = error.response;
+        if (status === 404) {
+          try {
+            await this.joinByDimigo();
+          } catch (err) {
+            await this.$swal('에러!', '올바른 디미고 계정이 아닙니다.', 'error');
+            return;
+          }
+          this.$swal('디미고 계정으로 가입했습니다!', '', 'success');
+          await this.login();
+          return;
+        }
         await this.$swal('에러!', message, 'error');
       }
+    },
+    async login() {
+      const { data } = await this.$api.post('/auth/login', this.form);
+      this.$store.commit('login', data);
+      this.$router.push('/');
+      this.$router.go();
+    },
+    async joinByDimigo() {
+      const { email, password } = this.form;
+      await this.$api.post('/auth/join', {
+        user: {
+          type: 'dimigo',
+          id: email,
+          password,
+        },
+      });
     },
   },
 };
