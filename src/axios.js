@@ -1,6 +1,11 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 
-const API_URL = 'http://localhost:5000/';
+dotenv.config({
+  path: './env/.secret.env',
+});
+
+const { API_URL } = process.env;
 
 export default store => axios.create({
   baseURL: API_URL,
