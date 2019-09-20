@@ -30,10 +30,6 @@ export default {
         await this.$swal('에러!', message, 'error');
       }
     },
-    onClickDimigoAuth() {
-      // eslint-disable-next-line no-alert
-      window.alert('준비중입니다.');
-    },
   },
 };
 </script>
@@ -45,7 +41,7 @@ export default {
         <jovian-input
           class="login__input"
           v-model="form.email"
-          placeholder="이메일"
+          placeholder="이메일 또는 디미고 계정 아이디"
           :autofocus="true"
         />
         <jovian-input
@@ -62,11 +58,8 @@ export default {
         </jovian-button>
       </div>
       <div class="login__options">
-        <span @click="onClickDimigoAuth">
-          디미고 계정으로 로그인
-        </span>
         <span @click="$router.push({ name: 'register' })">
-          회원가입
+          일반 사용자 회원가입
         </span>
       </div>
     </div>
