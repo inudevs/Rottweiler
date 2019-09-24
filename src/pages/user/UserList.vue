@@ -44,16 +44,16 @@ export default {
       }
     },
     async onClickPerm(user) {
-      if (user.admin) {
+      if (user.admin === 'O') {
         await this.$swal('부여할 권한이 없습니다!', '이미 관리자 권한을 가진 사용자입니다.', 'error');
         return;
       }
-      const type = user.inu ? 'admin' : 'inu';
+      const type = (user.inu === 'O') ? 'admin' : 'inu';
       const { value: answer } = await this.$swal({
         type: 'warning',
-        text: `사용자 '${user.name}'에게 ${user.inu ? '관리자' : 'INU 동아리원'} 권한을 부여하시겠습니까?`,
+        text: `사용자 '${user.name}'에게 ${(user.inu === 'O') ? '관리자' : 'INU 동아리원'} 권한을 부여하시겠습니까?`,
         confirmButtonColor: '#F56C6C',
-        confirmButtonText: '삭제',
+        confirmButtonText: '확인',
         cancelButtonText: '취소',
         showCancelButton: true,
       });

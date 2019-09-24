@@ -72,7 +72,7 @@ export default {
           <div class="index__requests">
             <el-popover
               placement="top-start"
-              title="대시보드를 제외한 하루 전까지의 모든 요청에 대한 데이터입니다."
+              title="대시보드를 제외한 하루 전까지의 API 요청에 대한 데이터입니다."
               width="500"
               trigger="hover"
               :content="`${start} ~ ${end}`"
@@ -85,7 +85,7 @@ export default {
                   최근 24시간
                 </span>
                 <span class="index__requests-value">
-                  요청 {{ logs.length }}개
+                  API 요청 {{ logs.length }}개
                 </span>
               </div>
             </el-popover>
